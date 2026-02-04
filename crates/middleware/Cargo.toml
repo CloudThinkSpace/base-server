@@ -1,0 +1,15 @@
+[package]
+name = "middleware"
+version = "0.0.0"
+edition = "2024"
+
+[dependencies]
+axum.workspace = true
+sqlx={workspace=true,features = ["runtime-tokio-rustls", "postgres", "uuid", "chrono"] }
+tokio.workspace = true
+jsonwebtoken.workspace = true
+chrono.workspace = true
+serde.workspace = true
+common.workspace = true
+base-config.workspace = true
+tracing.workspace = true

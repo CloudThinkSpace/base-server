@@ -1,0 +1,84 @@
+use std::sync::Arc;
+
+use axum::{Extension, Router, middleware::from_fn};
+use base_config::app::AppConfig;
+use common::jwt::JwtService;
+use database::connect_db;
+use middleware::middleware::{auth::auth_middleware, log::logging_middleware};
+use tokio::net::TcpListener;
+use trace_log::{LogLevel, init_logger};
+use tracing::info;
+
+/// ## 启动服务
+/// @param `app` 自定义router
+pub async fn start(app: Router) {
+    // 加载配置文件
+    let config = AppConfig::from_env().unwrap();
+    // 服务器名称
+    let server_name = &config.server_name;
+    // 服务器主机
+    let server_host = &config.server_host;
+    // 服务器端口
+    let server_port = &config.server_port;
+    // 数据库配置
+    let database_config = &config.database;
+
+    let pg_pool = connect_db(database_config).await.unwrap();
+
+    // 日志
+    //
+    let log = &config.log;
+    let _wg = match &log {
+        Some(data) => {
+            let level = match &data.level.parse::<LogLevel>() {
+                Ok(level) => level.clone(),
+                Err(_) => LogLevel::Debug,
+            };
+            let wg = init_logger(level);
+            Some(wg)
+        }
+        None => None,
+    };
+
+    // 先添加中间件，后添加Extension，中间件才能读取Extension中的内容，执行顺序正好是反向的
+
+    // 添加认证中间件
+    let app = match &config.jwt {
+        Some(_) => app.layer(from_fn(auth_middleware)),
+        None => app,
+    };
+
+    // 请求日志中间件
+    let app = match &config.log {
+        Some(data) if data.http => app.layer(from_fn(logging_middleware)),
+        _ => app,
+    };
+
+    // 添加jwt service
+    let app = match &config.jwt {
+        Some(data) => {
+            let jwt_service = JwtService::new(data.clone());
+            app.layer(Extension(Arc::new(jwt_service)))
+        }
+        None => app,
+    };
+
+    // 添加数据连接池
+    let app = app.layer(Extension(Arc::new(pg_pool)));
+
+    // 添加配置文件
+    let app = app.layer(Extension(Arc::new(config.clone())));
+
+    // 打印服务器信息
+    info!(
+        "Starting {}: http://{}:{}",
+        server_name, server_host, server_port
+    );
+
+    // 监听服务
+    let listener = TcpListener::bind(format!("{}:{}", server_host, server_port))
+        .await
+        .unwrap();
+    // 启动服务
+    axum::serve(listener, app).await.unwrap();
+}

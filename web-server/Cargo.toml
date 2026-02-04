@@ -1,0 +1,9 @@
+[package]
+name = "web-server"
+version = "0.0.0"
+edition = "2024"
+
+[dependencies]
+base-server.workspace = true
+axum.workspace = true
+tokio = { workspace = true, features = ["full"] }

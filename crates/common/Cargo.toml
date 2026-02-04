@@ -1,0 +1,11 @@
+[package]
+name = "common"
+version = "0.0.0"
+edition = "2024"
+
+[dependencies]
+jsonwebtoken.workspace = true
+chrono.workspace = true
+serde.workspace = true
+axum.workspace = true
+base-config.workspace = true

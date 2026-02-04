@@ -1,0 +1,25 @@
+server_name = "CTS Base Server"
+server_host = "0.0.0.0"
+server_port = 3000
+
+[log]
+level = "debug"
+http = true
+
+
+[database]
+url = "postgres://cts:cts@localhost/cts"
+
+# 连接池配置（单位：秒）
+max_connections = 10
+min_connections = 2
+connect_timeout = 5
+idle_timeout = 600      # 10分钟
+max_lifetime = 1800     # 30分钟
+
+[jwt]
+secret = "your_secret_key_here"
+expiration_hours = 24
+ignore_uris = [
+{path="/root", method=["get"]},
+]

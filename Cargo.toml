@@ -1,0 +1,35 @@
+[workspace]
+resolver="3"
+members = [
+    "crates/config",
+    "crates/common",
+    "crates/database",
+    "crates/middleware",
+    "crates/base-server",
+    "crates/trace-log",
+    "web-server",
+]
+
+[workspace.dependencies]
+base-config = {path="./crates/config"}
+common = {path="./crates/common"}
+database = {path="./crates/database"}
+middleware = {path="./crates/middleware"}
+base-server = {path="./crates/base-server"}
+trace-log = {path="./crates/trace-log"}
+
+serde = "1.0.228"
+serde_json = "1.0.149"
+config = "0.15.19"
+tracing = "0.1.44"
+tracing-subscriber = "0.3.22"
+tracing-appender = "0.2.4"
+sqlx = "0.8.6"
+chrono = "0.4.43"
+anyhow = "1.0.100"
+axum = "0.8.8"
+axum-extra = "0.12.5"
+tokio = "1.49.0"
+jsonwebtoken = "10.3.0"
+log = "0.4.29"
+time = "0.3.46"

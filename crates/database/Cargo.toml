@@ -1,0 +1,9 @@
+[package]
+name = "database"
+version = "0.0.0"
+edition = "2024"
+
+[dependencies]
+sqlx={workspace=true,features = ["runtime-tokio-rustls", "postgres", "uuid", "chrono"] }
+base-config.workspace = true
+anyhow.workspace = true
