@@ -13,7 +13,7 @@ members = [
 [workspace.dependencies]
 server-config = "0.0.1"
 server-common = "0.0.1"
-server-database = {path="./crates/database"}
+server-database = "0.0.1"
 server-middleware = "0.0.1"
 base-server = {path="./crates/base-server"}
 trace-log = "0.0.1"
