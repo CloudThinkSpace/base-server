@@ -11,12 +11,12 @@ members = [
 ]
 
 [workspace.dependencies]
-server-config = {path="./crates/config"}
-server-common = {path="./crates/common"}
-server-database = {path="./crates/database"}
-server-middleware = {path="./crates/middleware"}
-base-server = {path="./crates/base-server"}
-trace-log = {path="./crates/trace-log"}
+server-config = "0.0.1"
+server-common = "0.0.1"
+server-database = "0.0.1"
+server-middleware = "0.0.1"
+base-server = "0.0.1"
+trace-log = "0.0.1"
 
 serde = "1.0.228"
 serde_json = "1.0.149"
