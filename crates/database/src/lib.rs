@@ -1,4 +1,4 @@
-use base_config::database::DatabaseConfig;
+use server_config::database::DatabaseConfig;
 use sqlx::{PgPool, postgres::PgPoolOptions};
 
 pub async fn connect_db(config: &DatabaseConfig) -> anyhow::Result<PgPool> {

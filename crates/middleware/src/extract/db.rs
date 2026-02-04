@@ -6,7 +6,7 @@ use std::sync::Arc;
 
 use axum::extract::FromRequestParts;
 use axum::http::request::Parts;
-use common::error::db::DbError;
+use server_common::error::db::DbError;
 use sqlx::PgPool;
 
 pub struct DbPool(pub Arc<PgPool>);

@@ -1,11 +1,18 @@
 [package]
-name = "common"
-version = "0.0.0"
+name = "server-common"
+version = "0.0.1"
 edition = "2024"
+authors = ["tanghy <tanghy@cloudthink.space>"]
+homepage = "https://www.cloudthink.space"
+publish = true
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/CloudThinkSpace/base-server/tree/main/crates/common"
+rust-version = "1.91.1"
+description = "This is a web server framework with server common."
 
 [dependencies]
 jsonwebtoken.workspace = true
 chrono.workspace = true
 serde.workspace = true
 axum.workspace = true
-base-config.workspace = true
+server-config.workspace = true

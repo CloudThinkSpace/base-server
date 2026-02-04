@@ -1,7 +1,7 @@
-use base_config::{jwt::JwtConfig, uri::IgnoreUri};
 use chrono::{Duration, Utc};
 use jsonwebtoken::{Algorithm, DecodingKey, EncodingKey, Header, Validation, decode, encode};
 use serde::{Deserialize, Serialize};
+use server_config::{jwt::JwtConfig, uri::IgnoreUri};
 
 use crate::error::auth::AuthError;
 

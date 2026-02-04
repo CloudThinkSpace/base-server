@@ -1,7 +1,7 @@
 use std::sync::Arc;
 
 use axum::{extract::FromRequestParts, http::request::Parts};
-use common::{error::auth::AuthError, jwt::Claims};
+use server_common::{error::auth::AuthError, jwt::Claims};
 
 pub struct Auth(pub Arc<Claims>);
 

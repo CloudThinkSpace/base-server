@@ -1,8 +1,8 @@
 use std::sync::Arc;
 
 use axum::{extract::FromRequestParts, http::request::Parts};
-use base_config::app::AppConfig;
-use common::error::config::ConfigError;
+use server_common::error::config::ConfigError;
+use server_config::app::AppConfig;
 
 pub struct Config(pub Arc<AppConfig>);
 /// > 自定义提取器，提取配置文件对象

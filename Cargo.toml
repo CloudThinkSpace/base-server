@@ -11,10 +11,10 @@ members = [
 ]
 
 [workspace.dependencies]
-base-config = {path="./crates/config"}
-common = {path="./crates/common"}
-database = {path="./crates/database"}
-middleware = {path="./crates/middleware"}
+server-config = {path="./crates/config"}
+server-common = {path="./crates/common"}
+server-database = {path="./crates/database"}
+server-middleware = {path="./crates/middleware"}
 base-server = {path="./crates/base-server"}
 trace-log = {path="./crates/trace-log"}
 

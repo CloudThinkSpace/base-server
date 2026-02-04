@@ -1,10 +1,10 @@
 use std::sync::Arc;
 
 use axum::{Extension, Router, middleware::from_fn};
-use base_config::app::AppConfig;
-use common::jwt::JwtService;
-use database::connect_db;
-use middleware::middleware::{auth::auth_middleware, log::logging_middleware};
+use server_common::jwt::JwtService;
+use server_config::app::AppConfig;
+use server_database::connect_db;
+use server_middleware::middleware::{auth::auth_middleware, log::logging_middleware};
 use tokio::net::TcpListener;
 use trace_log::{LogLevel, init_logger};
 use tracing::info;

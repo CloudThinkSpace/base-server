@@ -35,3 +35,4 @@
 2026-02-04 12:01:36  INFO middleware::middleware::log: crates/middleware/src/middleware/log.rs: ←←← GET /root/1 completed in 0ms (status: 200 OK)
 2026-02-04 12:01:58  INFO middleware::middleware::log: crates/middleware/src/middleware/log.rs: →→→ GET /root/ started
 2026-02-04 12:01:58  INFO middleware::middleware::log: crates/middleware/src/middleware/log.rs: ←←← GET /root/ completed in 1ms (status: 404 Not Found)
+2026-02-04 15:56:29  INFO base_server::start: crates/base-server/src/start.rs: Starting CTS Base Server: http://0.0.0.0:3000

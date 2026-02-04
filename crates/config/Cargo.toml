@@ -1,7 +1,14 @@
 [package]
-name = "base-config"
-version = "0.0.0"
+name = "server-config"
+version = "0.0.1"
 edition = "2024"
+authors = ["tanghy <tanghy@cloudthink.space>"]
+homepage = "https://www.cloudthink.space"
+publish = true
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/CloudThinkSpace/base-server/tree/main/crates/database"
+rust-version = "1.91.1"
+description = "This is a web server framework with database support."
 
 [dependencies]
 serde = {workspace=true, features=["derive"]}

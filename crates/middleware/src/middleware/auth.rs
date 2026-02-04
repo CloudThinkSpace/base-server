@@ -7,7 +7,7 @@ use std::sync::Arc;
 ///
 ///
 use axum::{extract::Request, http::header, middleware::Next, response::Response};
-use common::{error::auth::AuthError, jwt::JwtService};
+use server_common::{error::auth::AuthError, jwt::JwtService};
 
 pub async fn auth_middleware(mut req: Request, next: Next) -> Result<Response, AuthError> {
     // 跳过公开路径（可选）
