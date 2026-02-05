@@ -22,7 +22,7 @@ pub async fn auth_middleware(mut req: Request, next: Next) -> Result<Response, A
         .ok_or(AuthError::MissingToken)?;
 
     // 判断是否为跟目录
-    if path.starts_with("/") {
+    if path == "/" {
         return Ok(next.run(req).await);
     }
 
