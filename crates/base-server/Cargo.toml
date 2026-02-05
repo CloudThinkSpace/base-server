@@ -10,12 +10,16 @@ repository = "https://github.com/CloudThinkSpace/base-server/tree/main/crates/ba
 rust-version = "1.91.1"
 description = "This is a web server framework with base server support."
 
+[features]
+default = ["log"]
+log = ["dep:trace-log"]
+
 [dependencies]
 axum.workspace = true
 tracing.workspace = true
 tokio.workspace = true
 server-config.workspace = true
 server-database.workspace = true
-trace-log.workspace = true
+trace-log = { workspace = true , optional = true }
 server-common.workspace = true
 server-middleware.workspace = true

@@ -6,6 +6,7 @@ use server_config::app::AppConfig;
 use server_database::connect_db;
 use server_middleware::middleware::{auth::auth_middleware, log::logging_middleware};
 use tokio::net::TcpListener;
+#[cfg(feature = "log")]
 use trace_log::{LogLevel, init_logger};
 use tracing::info;
 
@@ -25,6 +26,7 @@ pub async fn start(app: Router) {
 
     let pg_pool = connect_db(database_config).await.unwrap();
 
+    #[cfg(feature = "log")]
     // 日志
     //
     let log = &config.log;
@@ -48,6 +50,7 @@ pub async fn start(app: Router) {
         None => app,
     };
 
+    #[cfg(feature = "log")]
     // 请求日志中间件
     let app = match &config.log {
         Some(data) if data.http => app.layer(from_fn(logging_middleware)),

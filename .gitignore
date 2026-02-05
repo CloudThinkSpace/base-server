@@ -2,3 +2,4 @@
 /.sqlx
 /Cargo.lock
 /.env
+/logs
