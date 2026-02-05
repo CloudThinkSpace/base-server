@@ -2,9 +2,7 @@ use std::sync::Arc;
 
 use axum::{Extension, Router};
 
-#[cfg(feature = "log")]
-use axum::middleware::from_fn;
-#[cfg(feature = "auth")]
+#[cfg(any(feature = "log", feature = "auth"))]
 use axum::middleware::from_fn;
 #[cfg(feature = "auth")]
 use server_common::jwt::JwtService;

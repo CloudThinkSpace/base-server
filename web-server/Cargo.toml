@@ -4,6 +4,6 @@ version = "0.0.0"
 edition = "2024"
 
 [dependencies]
-base-server = { workspace = true, features = ["log"]}
+base-server = { workspace = true, features = ["log","auth"]}
 axum.workspace = true
 tokio = { workspace = true, features = ["full"] }

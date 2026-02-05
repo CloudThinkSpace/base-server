@@ -15,7 +15,7 @@ server-config = "0.0.1"
 server-common = "0.0.1"
 server-database = "0.0.2"
 server-middleware = "0.0.1"
-base-server = "0.0.3"
+base-server = "0.0.4"
 trace-log = "0.0.1"
 
 serde = "1.0.228"
