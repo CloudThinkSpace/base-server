@@ -22,5 +22,5 @@ secret = "your_secret_key_here"
 expiration_hours = 24
 ignore_uris = [
 {path="/root", method=["get"]},
-{path="/aaa", method=["get"]},
+# {path="/aaa", method=["get"]},
 ]

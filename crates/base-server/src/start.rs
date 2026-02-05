@@ -4,19 +4,18 @@ use axum::{Extension, Router};
 
 #[cfg(any(feature = "log", feature = "auth"))]
 use axum::middleware::from_fn;
-#[cfg(feature = "auth")]
-use server_common::jwt::JwtService;
 use server_config::app::AppConfig;
 #[cfg(feature = "postgres")]
 use server_database::connect_db;
-#[cfg(feature = "auth")]
-use server_middleware::middleware::auth::auth_middleware;
-#[cfg(feature = "log")]
-use server_middleware::middleware::log::logging_middleware;
 use tokio::net::TcpListener;
-#[cfg(feature = "log")]
-use trace_log::{LogLevel, init_logger};
 use tracing::info;
+#[cfg(feature = "auth")]
+use {server_common::jwt::JwtService, server_middleware::middleware::auth::auth_middleware};
+#[cfg(feature = "log")]
+use {
+    server_middleware::middleware::log::logging_middleware,
+    trace_log::{LogLevel, init_logger},
+};
 
 /// ## 启动服务
 /// @param `app` 自定义router
