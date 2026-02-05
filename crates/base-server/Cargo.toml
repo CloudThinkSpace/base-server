@@ -1,6 +1,6 @@
 [package]
 name = "base-server"
-version = "0.0.3"
+version = "0.0.4"
 edition = "2024"
 authors = ["tanghy <tanghy@cloudthink.space>"]
 homepage = "https://www.cloudthink.space"
@@ -13,6 +13,7 @@ description = "This is a web server framework with base server support."
 [features]
 default = []
 log = ["dep:trace-log"]
+auth = []
 
 [dependencies]
 axum.workspace = true

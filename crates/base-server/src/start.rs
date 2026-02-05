@@ -1,9 +1,16 @@
 use std::sync::Arc;
 
-use axum::{Extension, Router, middleware::from_fn};
+use axum::{Extension, Router};
+
+#[cfg(feature = "log")]
+use axum::middleware::from_fn;
+#[cfg(feature = "auth")]
+use axum::middleware::from_fn;
+#[cfg(feature = "auth")]
 use server_common::jwt::JwtService;
 use server_config::app::AppConfig;
 use server_database::connect_db;
+#[cfg(feature = "auth")]
 use server_middleware::middleware::auth::auth_middleware;
 #[cfg(feature = "log")]
 use server_middleware::middleware::log::logging_middleware;
@@ -43,6 +50,7 @@ pub async fn start(app: Router) {
 
     // 先添加中间件，后添加Extension，中间件才能读取Extension中的内容，执行顺序正好是反向的
 
+    #[cfg(feature = "auth")]
     // 添加认证中间件
     let app = match &config.jwt {
         Some(_) => app.layer(from_fn(auth_middleware)),
@@ -56,6 +64,7 @@ pub async fn start(app: Router) {
         _ => app,
     };
 
+    #[cfg(feature = "auth")]
     // 添加jwt service
     let app = match &config.jwt {
         Some(data) => {
