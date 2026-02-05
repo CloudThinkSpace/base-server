@@ -11,7 +11,7 @@ members = [
 ]
 
 [workspace.dependencies]
-server-config = "0.0.1"
+server-config = "0.0.2"
 server-common = "0.0.1"
 server-database = "0.0.2"
 server-middleware = "0.0.3"

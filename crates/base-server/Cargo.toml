@@ -14,14 +14,14 @@ description = "This is a web server framework with base server support."
 default = []
 log = ["dep:trace-log"]
 auth = []
-postgres = []
+postgres = ["dep:server-database"]
 
 [dependencies]
 axum.workspace = true
 tracing.workspace = true
 tokio.workspace = true
 server-config.workspace = true
-server-database.workspace = true
+server-database = {workspace = true, optional = true}
 trace-log = { workspace = true , optional = true }
 server-common.workspace = true
 server-middleware.workspace = true

@@ -7,6 +7,7 @@ use axum::middleware::from_fn;
 #[cfg(feature = "auth")]
 use server_common::jwt::JwtService;
 use server_config::app::AppConfig;
+#[cfg(feature = "postgres")]
 use server_database::connect_db;
 #[cfg(feature = "auth")]
 use server_middleware::middleware::auth::auth_middleware;
@@ -28,10 +29,6 @@ pub async fn start(app: Router) {
     let server_host = &config.server_host;
     // 服务器端口
     let server_port = &config.server_port;
-    // 数据库配置
-    let database_config = &config.database;
-
-    let pg_pool = connect_db(database_config).await.unwrap();
 
     #[cfg(feature = "log")]
     let _wg = match &config.log {
@@ -72,8 +69,16 @@ pub async fn start(app: Router) {
         None => app,
     };
 
-    // 添加数据连接池
-    let app = app.layer(Extension(Arc::new(pg_pool)));
+    #[cfg(feature = "postgres")]
+    let app = match &config.database {
+        Some(database_config) => {
+            let pg_pool = connect_db(database_config).await.unwrap();
+            // 添加数据连接池
+            let app = app.layer(Extension(Arc::new(pg_pool)));
+            app
+        }
+        None => app,
+    };
 
     // 添加配置文件
     let app = app.layer(Extension(Arc::new(config.clone())));
