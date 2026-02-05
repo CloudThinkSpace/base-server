@@ -4,7 +4,9 @@ use axum::{Extension, Router, middleware::from_fn};
 use server_common::jwt::JwtService;
 use server_config::app::AppConfig;
 use server_database::connect_db;
-use server_middleware::middleware::{auth::auth_middleware, log::logging_middleware};
+use server_middleware::middleware::auth::auth_middleware;
+#[cfg(feature = "log")]
+use server_middleware::middleware::log::logging_middleware;
 use tokio::net::TcpListener;
 #[cfg(feature = "log")]
 use trace_log::{LogLevel, init_logger};
@@ -27,10 +29,7 @@ pub async fn start(app: Router) {
     let pg_pool = connect_db(database_config).await.unwrap();
 
     #[cfg(feature = "log")]
-    // 日志
-    //
-    let log = &config.log;
-    let _wg = match &log {
+    let _wg = match &config.log {
         Some(data) => {
             let level = match &data.level.parse::<LogLevel>() {
                 Ok(level) => level.clone(),

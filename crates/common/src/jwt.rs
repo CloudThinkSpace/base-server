@@ -24,7 +24,6 @@ impl JwtService {
         if let Some(data) = &mut config.ignore_uris {
             JwtService::methods_to_uppercase(data);
         }
-        print!("{:?}", &config);
         Self { config }
     }
 
