@@ -8,7 +8,7 @@ pub struct AppConfig {
     pub server_host: String,
     pub server_port: u16,
     pub server_name: String,
-    pub database: DatabaseConfig,
+    pub database: Option<DatabaseConfig>,
     pub jwt: Option<JwtConfig>,
     pub log: Option<LogConfig>,
 }
