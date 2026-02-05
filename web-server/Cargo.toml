@@ -4,6 +4,11 @@ version = "0.0.0"
 edition = "2024"
 
 [dependencies]
-base-server = { workspace = true, features = ["auth"]}
+base-server = { workspace = true, features = ["auth","log","postgres"]}
 axum.workspace = true
 tokio = { workspace = true, features = ["full"] }
+sqlx = { workspace = true, features = ["postgres","runtime-tokio-rustls"] }
+server-middleware = { workspace = true }
+chrono = { workspace = true,features = ["serde"] }
+serde = { workspace = true }
+serde_json = { workspace = true }
