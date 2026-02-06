@@ -2,20 +2,15 @@ use std::sync::Arc;
 
 use axum::{Extension, Router};
 
-#[cfg(any(feature = "log", feature = "auth"))]
-use axum::middleware::from_fn;
-use server_config::app::AppConfig;
+#[cfg(feature = "auth")]
+use crate::layer::auth::apply_auth_layer;
 #[cfg(feature = "postgres")]
-use server_database::connect_db;
+use crate::layer::database::apply_database_layer;
+#[cfg(feature = "log")]
+use crate::layer::log::apply_log_layer;
+use server_config::app::AppConfig;
 use tokio::net::TcpListener;
 use tracing::info;
-#[cfg(feature = "auth")]
-use {server_common::jwt::JwtService, server_middleware::middleware::auth::auth_middleware};
-#[cfg(feature = "log")]
-use {
-    server_middleware::middleware::log::logging_middleware,
-    trace_log::{LogLevel, init_logger},
-};
 
 /// ## 启动服务
 /// @param `app` 自定义router
@@ -29,55 +24,17 @@ pub async fn start(app: Router) {
     // 服务器端口
     let server_port = &config.server_port;
 
-    #[cfg(feature = "log")]
-    let _wg = match &config.log {
-        Some(data) => {
-            let level = match &data.level.parse::<LogLevel>() {
-                Ok(level) => level.clone(),
-                Err(_) => LogLevel::Debug,
-            };
-            let wg = init_logger(level);
-            Some(wg)
-        }
-        None => None,
-    };
-
     // 先添加中间件，后添加Extension，中间件才能读取Extension中的内容，执行顺序正好是反向的
-
-    #[cfg(feature = "auth")]
-    // 添加认证中间件
-    let app = match &config.jwt {
-        Some(_) => app.layer(from_fn(auth_middleware)),
-        None => app,
-    };
 
     #[cfg(feature = "log")]
     // 请求日志中间件
-    let app = match &config.log {
-        Some(data) if data.http => app.layer(from_fn(logging_middleware)),
-        _ => app,
-    };
+    let (app, _wg) = apply_log_layer(app, &config);
 
     #[cfg(feature = "auth")]
-    // 添加jwt service
-    let app = match &config.jwt {
-        Some(data) => {
-            let jwt_service = JwtService::new(data.clone());
-            app.layer(Extension(Arc::new(jwt_service)))
-        }
-        None => app,
-    };
+    let app = apply_auth_layer(app, &config);
 
     #[cfg(feature = "postgres")]
-    let app = match &config.database {
-        Some(database_config) => {
-            let pg_pool = connect_db(database_config).await.unwrap();
-            // 添加数据连接池
-            let app = app.layer(Extension(Arc::new(pg_pool)));
-            app
-        }
-        None => app,
-    };
+    let app = apply_database_layer(app, &config).await;
 
     // 添加配置文件
     let app = app.layer(Extension(Arc::new(config.clone())));

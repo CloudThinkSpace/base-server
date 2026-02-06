@@ -13,7 +13,7 @@ description = "This is a web server framework with base server support."
 [features]
 default = []
 full = ["log","auth","postgres"]
-log = ["dep:trace-log"]
+log = ["dep:trace-log","dep:tracing-appender"]
 auth = []
 postgres = ["dep:server-database"]
 
@@ -23,6 +23,7 @@ tracing.workspace = true
 tokio.workspace = true
 server-config.workspace = true
 server-database = {workspace = true, optional = true}
-trace-log = { workspace = true , optional = true }
+trace-log = { workspace = true,optional = true }
 server-common.workspace = true
 server-middleware.workspace = true
+tracing-appender = {workspace = true, optional = true}
